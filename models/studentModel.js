@@ -14,11 +14,16 @@ const studentSchema = new mongoose.Schema({
     required: true,
 
   },
-  course:{
+  email:{
     type: String,
     required: true,
 
-  }
+  },
+  password:{
+    type: String,
+    required: true,
+
+  },
 });
 
 const studentModel = mongoose.model("student", studentSchema);

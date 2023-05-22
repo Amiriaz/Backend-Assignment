@@ -1,11 +1,11 @@
 const express = require("express");
 const route = express.Router();
-const studentModel = require("../models/studentModel");
+const instituteModel = require("../models/instituteModel");
 const { sendResponse } = require("../Helper/helper");
 
 route.get("/", async (req, res) => {
   try {
-    const result = await studentModel.find();
+    const result = await instituteModel.find();
     if (!result) {
       res.send(sendResponse(false, null, "No Data Found")).status(404);
     } else {
@@ -25,17 +25,20 @@ route.get("/:id", (req, res) => {
 //------------------
 
 route.post("/", async (req, res) => {
-  let { firstName, lastName, contact, course,email, password } = req.body;
+  let { instituteName, address, shortName, tel, } = req.body;
   try {
     let errArr = [];
-    if (!firstName) {
-      errArr.push("Required : First Name");
+    if (!instituteName) {
+      errArr.push("Required : Institute Name");
     }
-    if (!contact) {
-      errArr.push("Required :  Contact");
+    if (!shortName) {
+      errArr.push("Required :  Short Name");
     }
+    if (!address) {
+        errArr.push("Required : address");
+      }
     if (!course) {
-      errArr.push("Required : course");
+      errArr.push("Required : tel");
     }
     if (errArr.length > 0) {
       res
@@ -43,7 +46,7 @@ route.post("/", async (req, res) => {
         .status(400);
       return;
     } else {
-      let obj = {  firstName,  lastName, contact, course,email, password };
+      let obj = {  instituteName,  address, shortName, tel, };
       let student = new studentModel(obj);
       await student.save();
       if (!student) {
